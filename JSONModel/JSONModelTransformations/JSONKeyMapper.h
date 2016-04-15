@@ -57,6 +57,8 @@ typedef NSString* (^JSONModelKeyMapBlock)(NSString* keyName);
 /** Block, which takes in a property name and converts it to the corresponding JSON key name */
 @property (readonly, nonatomic) JSONModelKeyMapBlock modelToJSONKeyBlock;
 
+@property (readonly) BOOL camelModel;
+
 /** Combined converter method
 * @param value the source name
 * @param importing YES invokes JSONToModelKeyBlock, NO - modelToJSONKeyBlock
@@ -85,6 +87,8 @@ typedef NSString* (^JSONModelKeyMapBlock)(NSString* keyName);
  * @return JSONKeyMapper instance
  */
 -(instancetype)initWithDictionary:(NSDictionary*)map;
+
+-(instancetype)initWithCamelDictionary:(NSDictionary *)map;
 
 /**
  * Creates a JSONKeyMapper, which converts underscore_case to camelCase and vice versa.

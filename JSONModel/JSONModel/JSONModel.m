@@ -180,6 +180,29 @@ static JSONKeyMapper* globalKeyMapper = nil;
         if (err) *err = [JSONModelError errorModelIsInvalid];
         return nil;
     }
+
+    if (self.__keyMapper.camelModel) {
+        NSMutableDictionary *refactoredDict = [NSMutableDictionary new];
+
+        [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            NSString *newKey = [self.__keyMapper convertValue:key isImportingToModel:false];
+            if ([newKey rangeOfString:@"."].location==NSNotFound) {
+                refactoredDict[key] = obj;
+            } else {
+                NSArray *keys = [newKey componentsSeparatedByString:@"."];
+                NSMutableDictionary *parentDict = refactoredDict;
+                for (NSUInteger i = 0; i < keys.count-1; i++) {
+                    NSString *subKey = keys[i];
+                    if (!parentDict[subKey]) {
+                        parentDict[subKey] = [NSMutableDictionary new];
+                    }
+                    parentDict = parentDict[subKey];
+                }
+                parentDict[keys.lastObject] = obj;
+            }
+        }];
+        dict = [refactoredDict copy];
+    }
     
     //check incoming data structure
     if (![self __doesDictionary:dict matchModelWithKeyMapper:self.__keyMapper error:err]) {

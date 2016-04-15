@@ -12,6 +12,7 @@
 #import "GitHubViewController.h"
 #import "StorageViewController.h"
 #import "KivaViewControllerNetworking.h"
+#import "LLSDemoViewController.h"
 
 #import "JSONModel+networking.h"
 
@@ -37,7 +38,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Demos";
-        _objects = [NSMutableArray arrayWithArray:@[@"Kiva.org demo", @"GitHub demo", @"Used for storage"]];
+        _objects = [NSMutableArray arrayWithArray:@[@"Kiva.org demo", @"GitHub demo", @"Used for storage", @"Liulishuo Demo"]];
     }
     return self;
 }
@@ -85,6 +86,11 @@
         case 2:{
             StorageViewController* sc  = [[StorageViewController alloc] initWithNibName:@"StorageViewController" bundle:nil];
             [self.navigationController pushViewController:sc animated:YES];
+        }break;
+
+        case 3:{
+            LLSDemoViewController* lc  = [[LLSDemoViewController alloc] init];
+            [self.navigationController pushViewController:lc animated:YES];
         }break;
 
         default:

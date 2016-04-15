@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSMutableDictionary *toModelMap;
 @property (nonatomic, strong) NSMutableDictionary *toJSONMap;
 @property (nonatomic, assign) OSSpinLock lock;
+@property (nonatomic) BOOL camelModel;
 @end
 
 @implementation JSONKeyMapper
@@ -109,6 +110,16 @@
         };
     }
     
+    return self;
+}
+
+-(instancetype)initWithCamelDictionary:(NSDictionary *)map
+{
+    self = [self initWithDictionary:map];
+    if (self) {
+        self.camelModel = YES;
+    }
+
     return self;
 }
 
